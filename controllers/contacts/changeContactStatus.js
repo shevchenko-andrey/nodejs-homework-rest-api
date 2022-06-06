@@ -1,21 +1,26 @@
 const { Contact } = require("../../models");
 const { NotFound } = require("http-errors");
-const updateContact = async (req, res) => {
-  const { contactId } = req.params;
 
-  const updetedContact = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  });
+const changeContactStatus = async (req, res) => {
+  const { contactId } = req.params;
+  const { favorite } = req.body;
+  const updetedContact = await Contact.findByIdAndUpdate(
+    contactId,
+    { favorite },
+    {
+      new: true,
+    }
+  );
   if (!updetedContact) {
     throw new NotFound(`Contact with id=${contactId} not found!`);
   }
   res.json({
     status: "success",
-    message: "Contact successfully update",
     code: 200,
     data: {
       result: updetedContact,
     },
   });
 };
-module.exports = updateContact;
+
+module.exports = changeContactStatus;
