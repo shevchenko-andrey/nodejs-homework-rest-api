@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getAll,
-  getContactById,
-  addContact,
-  removeContact,
-  updateContact,
-  changeContactStatus,
+  contacts: {
+    getAll,
+    getContactById,
+    addContact,
+    removeContact,
+    updateContact,
+    changeContactStatus,
+  },
 } = require("../../controllers");
 const { ctrlWrapper, validation, validateId } = require("../../middlewares");
 const { joiSchema, joiSchemaStatus } = require("../../models/contact");
