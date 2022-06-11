@@ -6,8 +6,10 @@ const register = async (req, res) => {
   if (user) {
     throw new Conflict(`Contact with ${email} already exist`);
   }
+  const newUser = new User({ name, email });
+  newUser.setPassword(password);
+  newUser.save();
 
-  const result = await User.create({ name, email, password });
   res.status(201).json({
     status: "Succses",
     code: 201,

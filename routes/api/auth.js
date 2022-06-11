@@ -1,14 +1,16 @@
 const express = require("express");
 
 const {
-  auth: { register },
+  auth: { register, login },
 } = require("../../controllers");
 
-const { joiRegisterSchema } = require("../../models/user");
+const { joiRegisterSchema, joiLoginSchema } = require("../../models/user");
 const { validation, ctrlWrapper } = require("../../middlewares");
 
 const router = express.Router();
 
 router.post("/register", validation(joiRegisterSchema), ctrlWrapper(register));
+
+router.post("/login", validation(joiLoginSchema), ctrlWrapper(login));
 
 module.exports = router;
