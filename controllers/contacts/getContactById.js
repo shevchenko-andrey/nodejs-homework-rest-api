@@ -2,6 +2,7 @@ const { Contact } = require("../../models");
 const { NotFound } = require("http-errors");
 
 const getContactById = async (req, res) => {
+  const { _id } = req.user;
   const { contactId } = req.params;
   const contactItem = await Contact.findById(contactId);
   if (!contactItem) {

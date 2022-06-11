@@ -3,6 +3,10 @@ const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const userSchema = Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
