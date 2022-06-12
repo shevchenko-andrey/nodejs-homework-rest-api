@@ -9,7 +9,12 @@ const updateContact = async (req, res) => {
     {
       new: true,
     }
-  );
+  )
+    .where({
+      owner: _id,
+    })
+    .populate("owner", "_id name email subscription");
+
   if (!updetedContact) {
     throw new NotFound(`Contact with id=${contactId} not found!`);
   }
