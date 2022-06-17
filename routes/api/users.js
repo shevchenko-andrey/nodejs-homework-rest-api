@@ -1,9 +1,9 @@
 const express = require("express");
 const {
-  users: { getCurrent, changeSubscription },
+  users: { getCurrent, updateAvatar, changeSubscription },
 } = require("../../controllers");
 const { joiSubSchema } = require("../../models/user");
-const { auth, validation, ctrlWrapper } = require("../../middlewares");
+const { auth, validation, upload, ctrlWrapper } = require("../../middlewares");
 
 const router = express.Router();
 router.patch(
@@ -13,5 +13,12 @@ router.patch(
   ctrlWrapper(changeSubscription)
 );
 router.get("/current", auth, ctrlWrapper(getCurrent));
+
+router.patch(
+  "/avatars",
+  auth,
+  upload.single("avatar"),
+  ctrlWrapper(updateAvatar)
+);
 
 module.exports = router;
