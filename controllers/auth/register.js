@@ -1,9 +1,9 @@
 const { User } = require("../../models");
 const { Conflict } = require("http-errors");
 const gravatar = require("gravatar");
-const { sgMail } = require("../../helpers");
+const { sendVerifyEmail } = require("../../helpers");
 const { v4 } = require("uuid");
-const baseURL = "http://localhost:8080/api";
+const { baseURL } = require("../../helpers/constants");
 const register = async (req, res) => {
   const { name, email, password } = req.body;
   const user = await User.findOne({ email });
@@ -15,15 +15,12 @@ const register = async (req, res) => {
   const newUser = new User({ name, email, avatarURL, verificationToken });
   newUser.setPassword(password);
   newUser.save();
-  const msg = {
-    to: email,
-    from: "andrebro.shevchenko@gmail.com",
-    subject: "Confirm your email",
-    text: "and easy to do anywhere, even with Node.js",
-    html: `<a target="_blank" href='${baseURL}/users/verify/${verificationToken}'>Confirm email</a>`,
-  };
 
-  await sgMail.send(msg);
+  await sendVerifyEmail(
+    email,
+    `${baseURL}/users/verify/${verificationToken}`,
+    "Confirm email"
+  );
 
   res.status(201).json({
     status: "Succses",

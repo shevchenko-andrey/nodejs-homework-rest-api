@@ -69,9 +69,14 @@ const joiSubSchema = Joi.object({
   subscription: Joi.valid("starter", "pro", "business").required(),
 });
 
+const joiResendSchema = Joi.object({
+  email: Joi.string().email().required("missing required field email"),
+});
+
 module.exports = {
   User,
   joiRegisterSchema,
   joiLoginSchema,
   joiSubSchema,
+  joiResendSchema,
 };
