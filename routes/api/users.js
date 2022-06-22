@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  users: { getCurrent, updateAvatar, changeSubscription },
+  users: { getCurrent, updateAvatar, changeSubscription, verifyEmail },
 } = require("../../controllers");
 const { joiSubSchema } = require("../../models/user");
 const { auth, validation, upload, ctrlWrapper } = require("../../middlewares");
@@ -13,7 +13,7 @@ router.patch(
   ctrlWrapper(changeSubscription)
 );
 router.get("/current", auth, ctrlWrapper(getCurrent));
-
+router.get("/verify/:verificationToken", ctrlWrapper(verifyEmail));
 router.patch(
   "/avatars",
   auth,
