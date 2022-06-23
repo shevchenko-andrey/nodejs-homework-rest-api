@@ -1,8 +1,14 @@
 const express = require("express");
 const {
-  users: { getCurrent, updateAvatar, changeSubscription },
+  users: {
+    getCurrent,
+    updateAvatar,
+    changeSubscription,
+    verifyEmail,
+    resendVerify,
+  },
 } = require("../../controllers");
-const { joiSubSchema } = require("../../models/user");
+const { joiSubSchema, joiResendSchema } = require("../../models/user");
 const { auth, validation, upload, ctrlWrapper } = require("../../middlewares");
 
 const router = express.Router();
@@ -13,7 +19,8 @@ router.patch(
   ctrlWrapper(changeSubscription)
 );
 router.get("/current", auth, ctrlWrapper(getCurrent));
-
+router.post("/verify", validation(joiResendSchema), ctrlWrapper(resendVerify));
+router.get("/verify/:verificationToken", ctrlWrapper(verifyEmail));
 router.patch(
   "/avatars",
   auth,

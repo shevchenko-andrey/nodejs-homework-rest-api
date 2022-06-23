@@ -7,9 +7,11 @@ const login = async (req, res) => {
   if (!user) {
     throw new Unauthorized("Email not found");
   }
-
   if (!user.comparePassword(password)) {
     throw new Unauthorized("Password wrong");
+  }
+  if (!user.verify) {
+    throw new Unauthorized("Email is not verify");
   }
   const { SECRET_KEY } = process.env;
 
